@@ -1,0 +1,6 @@
+<Lumber available in length> 9,14,16
+<The cost of available lumber> 5,9,10
+
+<Customer demands>
+4,5,7
+30,20,40
