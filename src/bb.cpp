@@ -86,20 +86,6 @@ void BB::branch_and_price() {
             tree.pop();
         }
 
-        std::cout << "Iteration " << iter << ": global upper bound = " << m_global_ub << "; global lower bound = " << m_global_lb << "; size of the tree: " << tree.size() << std::endl;
-        /*
-        std::cout << "Current node's solution:" << std::endl;
-        for (uint i = 0; i < current_node.m_x_sol.size(); i++) {
-            std::cout << "x[" << i << "] = " << current_node.m_x_sol[i] << std::endl;
-        }
-        std::cout << "Current node's depth = " << current_node.m_node_depth << std::endl;
-        std::cout << "Current node's lb = " << current_node.m_local_lb << "; current node's ub = " << current_node.m_local_ub << std::endl;
-        std::cout << "Current node's branching infomation: " << std::endl;
-        for (uint i = 0; i < current_node.m_branching_constraints_index.size(); i++) {
-            std::cout << "x[" << current_node.m_branching_constraints_index[i] << "] " << current_node.m_branching_constraints_char[i] << " " << current_node.m_branching_constraints_value[i] << std::endl;
-        }
-        */
-
         if (if_pruned == false) {
             tree.pop();
             is_root_node = false;
@@ -120,17 +106,6 @@ void BB::branch_and_price() {
             tree.push(left_child);
             delete left_child_ptr;
 
-            /*
-            std::cout << "Current node's left child: " << std::endl;
-            std::cout << "  Obj value: " << left_child.m_obj_val << std::endl;
-            int left_first_non_integral_index = -1;
-            bool left_if_integral_solution = check_if_node_integral(left_child, left_first_non_integral_index);
-            std::cout << "  If integral solution: " << left_if_integral_solution << std::endl;
-            for (uint i = 0; i < left_child.m_branching_constraints_value.size(); i++) {
-                std::cout << "  x[" << left_child.m_branching_constraints_index[i] << "] " << left_child.m_branching_constraints_char[i] << " " << left_child.m_branching_constraints_value[i] << std::endl;
-            }
-            */
-
             // create right child
             std::vector<int> right_branching_constraints_index;
             std::vector<int> right_branching_constraints_value;
@@ -146,17 +121,6 @@ void BB::branch_and_price() {
             right_child.m_node_depth = current_node.m_node_depth + 1;
             tree.push(right_child);
             delete right_child_ptr;
-
-            /*
-            std::cout << "Current node's right child: " << std::endl;
-            std::cout << "  Obj value: " << right_child.m_obj_val << std::endl;
-            int right_first_non_integral_index = -1;
-            bool right_if_integral_solution = check_if_node_integral(right_child, right_first_non_integral_index);
-            std::cout << "  If integral solution: " << right_if_integral_solution << std::endl;
-            for (uint i = 0; i < right_child.m_branching_constraints_value.size(); i++) {
-                std::cout << "  x[" << right_child.m_branching_constraints_index[i] << "] " << right_child.m_branching_constraints_char[i] << " " << right_child.m_branching_constraints_value[i] << std::endl;
-            }
-            */
 
             // update global lower bound by exploring all leaves
             temp_lb = std::min(left_child.m_obj_val, right_child.m_obj_val);
